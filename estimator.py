@@ -1,78 +1,133 @@
-import sys
+import sys, random
 import pandas as pd
-import networkx as nx
-
-# Descripteurs 
-# On se focalise sur des maisons
-# Ville / Quartier
-# Prix 
-# Surface 
-# Terrain 
-# Pieces
+random.seed(1)
 
 
-data = pd.read_csv('./db.csv', sep=',')
+# Liste ordonnée des descripteurs utilisés pour le SRaPC
+# L'ordre permet de définir les noeuds du graphe produit
+DESCRIPTEURS = [
+    "quartier",
+    "pieces",
+    "surface",
+    "terrain"
+]
+# Fonction de similarité associée à chaque descripteur, permettant de comparer le plus proche
+# Doit être de la même taille que DESCRIPTEURS
+def strict_fn(values, val): #La valeur ou rien
+    return [val if (val in values) else values[random.randrange(len(values))]]
+def closest_fn(values, val): #Les valeurs les plus proches
+    absolute_difference_function = lambda list_value : abs(list_value - val)
+    minimum = min(values, key=absolute_difference_function)
+    return [val for val in values if val == minimum]
+DESCRIPTEURS_FN = [
+    strict_fn,
+    closest_fn,
+    closest_fn,
+    closest_fn
+]
+assert(len(DESCRIPTEURS) == len(DESCRIPTEURS_FN))
 
 
-def compute_mean_price(data, search):
-    data_sub = get_rows_by(data,search)
-    return int(data_sub["prix"].sum() / data_sub["surface"].sum())
+
+# Base de données
+DB = pd.read_csv('./db.csv', sep=',')
 
 
-def get_rows_by(data, search):
-    rows = data
-    for key in search:
-        rows = rows[rows[key] == search[key]]
-    return rows
+
+def compute_price(db):
+    '''
+    @summary: Calcule le prix au m2 par rapport à une base de cas. Nous utilisons la moyenne.
+
+    @param db: Dataframe contenant la base de cas
+    '''
+    return int(db["prix"].sum() / db["surface"].sum())
 
 
-def create_graph_db():
-    graph = {key: {} for key in data["quartier"]}   
 
-    for quartier in graph:
-        data_sub = get_rows_by(data,{"quartier":quartier})
-        graph[quartier] = {
-            pieces: {
-                surface: {
-                    terrain: {
-                       compute_mean_price(data, {"quartier":quartier, "surface":surface, "terrain":terrain, "pieces":pieces} )
-                    }
-                    for terrain in get_rows_by(data,{"quartier":quartier, "surface":surface, "pieces":pieces})["terrain"]
-                }
-                for surface in get_rows_by(data,{"quartier":quartier, "pieces":pieces})["surface"]
+def create_graph_from_db(db):
+    '''
+    @summary: Crée un graphe récursivement à partir d'une base de cas. (Indexation)
+
+    @param db: Dataframe contenant la base de cas
+    '''
+    # Fonction de récursion
+    def create_graph_sub(db, desc):
+        # (Automn) leave == cas d'arrêt
+        # Calcule le prix au m2 pour le(s) cas trouvé(s) apres avoir separé la BD selon les criteres donnés (descripteurs)
+        if len(desc) == 0:
+            return compute_price(db)
+        # Ajout de nouveaux noeuds
+        else:
+            return {
+                d : create_graph_sub(db[db[desc[0]] == d], desc[1:])
+                for d in db[desc[0]]
             }
-        for pieces in data_sub["pieces"]}
 
-    return graph
-
-
-
-def search_in_graph(graph, search):
-    sub_graph = graph
-    for key in search:
-        sub_graph = sub_graph[key]
-    return sub_graph
-
-
-def get_similars(graph, pb):
-    sub_graph = search_in_graph(graph, {pb["quartier"],pb["pieces"]})
-    return sub_graph
-
-#print(data)
-graph_dict = create_graph_db()
-#print(graph_dict)
-
-sims = get_similars (
-    graph_dict, {
-        "quartier":"Cenon",
-        "pieces":4,
+    # Lancement de la récursion
+    # Retourne le graphe produit
+    return {
+        desc0 : create_graph_sub(db[db[DESCRIPTEURS[0]] == desc0], DESCRIPTEURS[1:])
+        for desc0 in db[DESCRIPTEURS[0]]
     }
-)
-print(sims)
 
 
 
-#g = nx.DiGraph(graph_dict)
-#print(g)
+def knearest_desc(values, desc, similarity_fn, k=None):
+    '''
+    @summary: Applique une fonction de similarité pour trouver les k-nearest valeurs les plus proches d'une valeur donnée.
 
-#nx.draw_networkx(g)
+    @param values: liste de valeurs possibles pour un descripteur
+    @param desc: valeur du descripteur
+    @param similarity_fn: fonction de similarité du descripteur
+    @k: nombre de valeurs à retourner
+    '''
+    n = similarity_fn(values, desc)
+    if k == None:
+        return n
+    else:
+        return random.sample(values, k)
+
+
+
+def estimate(graph, search):
+    '''
+    @summary: Remémoration d'un cas source similaire au problème cible.
+
+    @param graph: Dict sous forme de graph contenant les cas sources
+    @param search: Dict contenant le problème cible
+    '''
+    # Fonction de récursion
+    def estimate_sub(subgraph, search, desc, desc_fns):
+        # Cas d'arrêt
+        if len(desc) == 0:
+            return subgraph
+        # Parcours le graph
+        else:
+            closests = knearest_desc(subgraph.keys(), search[desc[0]], desc_fns[0])
+            return min([
+                estimate_sub(subgraph[closest], search, desc[1:], desc_fns[1:])
+            for closest in closests])
+            
+    # Lancement de la récursion
+    # Retourne le prix du cas le plus proche au problème cible
+    closests = knearest_desc(graph.keys(), search[DESCRIPTEURS[0]], DESCRIPTEURS_FN[0])
+    return min([
+        estimate_sub(graph[closest], search, DESCRIPTEURS[1:], DESCRIPTEURS_FN[1:])
+    for closest in closests])
+
+
+
+graph = create_graph_from_db(DB)
+
+
+print (  estimate(graph, {"quartier":"Cenon","pieces":3,"surface":96,"terrain":264}) )
+
+
+#Cenon,3490,53,118,2
+#Cenon,4000,70,0,4
+#Cenon,2065,92,264,4
+#Cenon,4980,82,662,4
+#Cenon,3505,85,0,4
+#Cenon,3750,101,357,4
+#Cenon,3559,59,237,5
+#Cenon,3392,102,420,5
