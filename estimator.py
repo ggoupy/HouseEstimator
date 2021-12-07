@@ -1,5 +1,6 @@
 import sys, random
 import pandas as pd
+import numpy as np
 random.seed(1)
 
 
@@ -95,32 +96,50 @@ def estimate(graph, search):
 
     @param graph: Dict sous forme de graph contenant les cas sources
     @param search: Dict contenant le problème cible
+    @return: Prix minimum parmi les cas les plus proches au problème cible
     '''
     # Fonction de récursion
     def estimate_sub(subgraph, search, desc, desc_fns):
         # Cas d'arrêt
         if len(desc) == 0:
-            return subgraph
+            return (subgraph, {"prix": subgraph})
         # Parcours le graph
         else:
             closests = knearest_desc(subgraph.keys(), search[desc[0]], desc_fns[0])
-            return min([
-                estimate_sub(subgraph[closest], search, desc[1:], desc_fns[1:])
-            for closest in closests])
+            subs = [estimate_sub(subgraph[closest], search, desc[1:], desc_fns[1:]) for closest in closests]
+            prices, descs_vals = zip(*subs)
+            return (np.min(prices), descs_vals[np.argmin(prices)] | { desc[0]: closests[np.argmin(prices)] })
             
     # Lancement de la récursion
     # Retourne le prix du cas le plus proche au problème cible
     closests = knearest_desc(graph.keys(), search[DESCRIPTEURS[0]], DESCRIPTEURS_FN[0])
-    return min([
-        estimate_sub(graph[closest], search, DESCRIPTEURS[1:], DESCRIPTEURS_FN[1:])
-    for closest in closests])
+    subs = [estimate_sub(graph[closest], search, DESCRIPTEURS[1:], DESCRIPTEURS_FN[1:]) for closest in closests]
+    prices, descs_vals = zip(*subs)
+    return (np.min(prices), descs_vals[np.argmin(prices)] | { DESCRIPTEURS[0]: closests[np.argmin(prices)] })
+
+
+def adaptation(search, result):
+    '''
+    @summary: Adaptation après résolution du problème avec un cas source similaire.
+
+    @param search: Dict contenant le problème cible
+    @param result: Dict conentant le cas source choisi
+    @return: TODO
+    '''
+    return 0
+
+# TODO memorisation du cas résolu
 
 
 
 graph = create_graph_from_db(DB)
 
+search = {"quartier":"Cenon","pieces":3,"surface":96,"terrain":264}
 
-print (  estimate(graph, {"quartier":"Cenon","pieces":3,"surface":96,"terrain":264}) )
+
+price, result = estimate(graph, search )
+
+adaptation(search, result)
 
 
 #Cenon,3490,53,118,2
