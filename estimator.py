@@ -54,15 +54,15 @@ DB = pd.read_csv('./db.csv', sep=',')
 
 
 
-def compute_price(db):
+def compute_price(rows):
     '''
     @summary: Calcule le prix au m2 par rapport à une (sous) base de cas (généralement 1 seul).
               Nous utilisons la moyenne mais on pourrait choisir le minimum / maximum / autre.
 
-    @param db: Dataframe contenant la (sous) base de cas
+    @param rows: Dataframe contenant la (sous) base de cas
     @return: Prix au m2 calculé
     '''
-    return int(db["prix"].sum() / db["surface"].sum())
+    return int(rows["prix"].sum() / rows["surface"].sum())
 
 
 
@@ -225,7 +225,8 @@ def test_model(nb_epochs=10, debug=True):
         # Adaptation - Estime le prix en fonction du cas source
         price = estimate(search, result, debug=debug)
         # Calcule le pourcentage de différence avec la réalité
-        diff = round( (abs(search['prix'] - price) / ((search['prix'] + price)/2) * 100) , 2)
+        #diff = round( (abs(search['prix'] - price) / ((search['prix'] + price)/2) * 100) , 2)
+        diff = round( ( (search['prix'] - price) / price ) * 100, 2)
         # Affichage
         if debug:
             print(f"Problème cible : {search}")
@@ -233,7 +234,7 @@ def test_model(nb_epochs=10, debug=True):
             print(f"Prix estimé au m2 : {price} (à partir du prix source:{result['prix']})")
             print(f"Prix réel : {search['prix']} / {diff}%")
             print()
-        moy_err += diff
+        moy_err += abs(diff)
     moy_err = round(moy_err/nb_epochs,2)
     if debug:
         print(f"Erreur moyenne dans la prédiciton : {moy_err}%")
