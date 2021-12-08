@@ -22,10 +22,26 @@ La base de cas a été constituée manuellement, à partir du site [seloger.com]
 - **Prix** : total, en euros
 
 ### Programme
-TODO
+Cette section détaille le cycle suivit par le système.  
+
+#### Indexation de la base de cas
+La base de cas est stockée dans le fichier `db.csv`. À l'exécution, le système lit la base de donnée à l'aide du module `pandas` et construit une base de cas indexée (*graph*), sous la forme d'un dictionnaire python. La création du graphe est réalisée par la fonction `create_graph_from_db(db)`, construisant les noeuds récursivement à l'aide des descripteurs (caractéristiques) définis dans la constante `DESCRIPTEURS`. Leur ordre est important car il correspond à l'ordre des noeuds dans la base indexée.
+#### Remémoration 
+La remémoration d'un cas source à partir du problème cible donné est réalisée par la fonction `find_similar(graph,search)`, l'argument `graph` étant la base de cas indexée et l'argument `search` un dictionnaire python contenant le problème cible. Cette fonction cherche dans le graphe le cas source le plus similaire à un problème cible, selon des critères de similarité définis. Pour cela, à chaque niveau (représentant un descripteur), les valeurs du descripteur les plus similaires/proches à celle du problème cible sont choisies, les sous graphes obtenus avec ces valeurs sont parcourus de la même manière, puis la valeur amenant le prix le plus faible (critère défini, pourrait être le maximum/moyenne/etc.) est retenue. Le cas source est donc récupéré récursivement par ce procédé. Les critères de similarité sont définis dans la constante `DESCRIPTEURS_FN`, associant une fonction de similarité à un descripteur.
+#### Adaptation
+L'adaptation du cas source pour le problème cible est réalisée par la fonction `estimate(search,result)`, l'argument `search` étant un dictionnaire python contenant le problème cible et l'argument `result` un dictionnaire python contenant le cas source choisi. Le prix estimé est calculé en ajoutant une valeur D<sub>price</sub> à au prix du cas source : 
+<p align="center">
+    <img src="https://render.githubusercontent.com/render/math?math=P_{estimate}=P_{source} %2B D_{price}"> 
+</p>  
+<p align="center">
+    <img src="https://render.githubusercontent.com/render/math?math=$D_{price} = \sum_{n=d}^{descripteurs} (result_d - search_d) * weight_d$">  
+</p>  
+
+Les poids associés à un descripteur sont stockés dans la constante `DESCRIPTEURS_WEIGHTS`. À noter que pour des descripteurs contenant des valeurs de type *string*, le poids associé est un dictionnaire contenant (ou non) un déficit pour la valeur. Par exemple : pour le descripteur *quartier*, le dictionnaire contient des déficits chaque valeur (Talence, Cenon, etc.), plus le quartier est recherché, plus le déficit est faible. Ainsi, si un cas source se trouve dans un quartier plus rercherché que le problème cible, son déficit sera moins élevé que celui du problème, donc la valeur du prix diminuera. Et inversement.
 
 
-## Execution
+
+## Exécution
 
 ### Pré-requis
 - [Python3](https://www.python.org/downloads/)
@@ -61,4 +77,4 @@ Une documentation du code est disponible dans le fichier `estimator.html` (pour 
 
 
 # Licence
-Voir [Licence](Licence.md)
+Voir [Licence](LICENCE.md)
