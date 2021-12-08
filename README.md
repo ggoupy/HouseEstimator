@@ -40,9 +40,18 @@ L'adaptation du cas source pour le problème cible est réalisée par la fonctio
 Les poids associés à un descripteur sont stockés dans la constante `DESCRIPTEURS_WEIGHTS`. À noter que pour des descripteurs contenant des valeurs de type *string*, le poids associé est un dictionnaire contenant (ou non) un déficit pour la valeur. Par exemple : pour le descripteur *quartier*, le dictionnaire contient des déficits chaque valeur (Talence, Cenon, etc.), plus le quartier est recherché, plus le déficit est faible. Ainsi, si un cas source se trouve dans un quartier plus rercherché que le problème cible, son déficit sera moins élevé que celui du problème, donc la valeur du prix diminuera. Et inversement.
 
 ## Expériences et résultats
-- test_model
-- grid_search
-- résultats de merde
+Cette section détaille les expériences réalisées pour tester la précision du système.  
+La fonction `test_model(nb_epochs)` permet de mesurer l'erreur moyenne dans la prédiction sur `nb_epochs`. Pour cela, à chaque itération, une cas est tiré aléatoirement et uniformément, puis retiré de la base de cas. Son prix est déjà connu mais le système va l'estimer en suivant le cycle décrit dans la section [Programme](#Programme). Ainsi, le pourcentage de différence (variation) entre le prix réel et estimé peut être calculé par la formule :   
+<p align="center">
+    <img src="https://render.githubusercontent.com/render/math?math=error = \frac{p_{reel} - p_{estimate}}{p_{estimate}} * 100">  
+</p>   
+La moyenne des (valeurs absolues) différences est ensuite calculée (sur `nb_epochs`), afin d'estimer la précision globale du système. Il faut tout de même mentionner que cette précision est relative à la base de cas et peut varier sur de nouveaux cas.
+  
+Afin de trouver des poids adaptés, la fonction `grid_search()` a été implémentée. Elle permet de tester des combinaisons de poids données, pour chaque descripteur, afin de trouver la meilleure combinaison. Pour cela, des plages de valeurs sont définies pour chaque poids, et la fonction mesure la précision pour chaque combinaison possible, avec la fonction `test_model(nb_epochs)` (`nb_epochs=`30). Ensuite, il suffit de choisir la combinaison optimale, *c.a.d* celle ayant le pourcentage d'erreur minimum. Il est là aussi important de mentionner que ces paramètres s'adaptent à la base de cas connue, les tests étant réalisés dessus. Si celle-ci venait à changer, les poids ne pourraient varier.
+*Nb: la fonction n'est pas très élégante, ni modulable, mais a été implémentée dans le but d'automatiser la recherche de poids*
+
+  
+TODO : résultats obtenus, disclaimer sur la base pas assez grande, ni le nombre de caractéristiques
 
 
 ## Exécution
