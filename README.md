@@ -87,7 +87,7 @@ Les poids optimaux trouvés sont :
 - **Surface** : *-3*
 - **Terrain** : *-2*
     
-En utilisant les poids optimaux, sur 100 estimations, nous obtenons un pourcentage d'erreur moyen de **~30.96%**. Concrètement, si le prix réel d'un bien est de 3000 € / m<sup>2</sup>, le prix estimé pourra être de 2300 € / m<sup>2</sup>. Sur une maison de 100m<sup>2</sup>, on passe donc d'une valeur de 300,000 € à 230,000 € ! *Sacré promotion...* Les estimations obtenues ne sont donc pas très fiables. Cela s'explique par plusieurs points, pouvant faire l'objet d'améliorations futures : 
+En utilisant les poids optimaux, sur 100 estimations, nous obtenons un pourcentage d'erreur moyen de **~30.96%**. Concrètement, si le prix réel d'un bien est de 3000 € / m<sup>2</sup>, le prix estimé pourra être de 2300 € / m<sup>2</sup>. Sur une maison de 100m<sup>2</sup>, on passe donc d'une valeur de 300,000 € à 230,000 € ! *Sacrée promotion...* Les estimations obtenues ne sont donc pas très fiables. Cela s'explique par plusieurs points, pouvant faire l'objet d'améliorations futures : 
 - La base de cas est trop petite et les données ne sont pas assez fiables (prix sur/sous-estimé).
 - Le nombre de descripteurs n'est pas assez élevé, ne permettant pas une bonne généralisation par l'Adaptation.
 - Les paramètres d'adaptation (poids) pourraient être affinés.
