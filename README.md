@@ -22,10 +22,18 @@ La base de cas a été constituée manuellement, à partir du site [seloger.com]
 - **Prix** : total, en euros
 
 ### Programme
-TODO
+Cette section détaille le cycle suivit par le système.  
+
+#### Indexation de la base de cas
+La base de cas est stockée dans le fichier `db.csv`. À l'exécution, le système lit la base de donnée à l'aide du module `pandas` et construit une base de cas indexée (*graph*), sous la forme d'un dictionnaire python. La création du graphe est réalisée par la fonction `create_graph_from_db(db)`, construisant les noeuds récursivement à l'aide des descripteurs (caractéristiques) définis dans la constante `DESCRIPTEURS`. Leur ordre est important car il correspond à l'ordre des noeuds dans la base indexée.
+#### Remémoration 
+La remémoration d'un cas source à partir du problème cible donné est réalisée par la fonction `find_similar(graph,search)`, l'argument `graph` étant la base de cas indexée et l'argument `search` un dictionnaire python contenant le problème cible. Cette fonction cherche dans le graphe le cas source le plus similaire à un problème cible, selon des critères de similarité définis. Pour cela, à chaque niveau (représentant un descripteur), les valeurs du descripteur les plus similaires/proches à celle du problème cible sont choisies, les sous graphes obtenus avec ces valeurs sont parcourus de la même manière, puis la valeur amenant le prix le plus faible (critère défini, pourrait être le maximum/moyenne/etc.) est retenue. Le cas source est donc récupéré récursivement par ce procédé. Les critères de similarité sont définis dans la constante `DESCRIPTEURS_FN`, associant une fonction de similarité à un descripteur.
+#### Adaptation
+L'adaptation du cas source pour le problème cible est réalisée par la fonction `estimate(search,result)`, l'argument `search` étant un dictionnaire python contenant le problème cible et l'argument `result` un dictionnaire python contenant le cas source choisi. Le prix estimé est calculé en ajoutant une valeur D<sub>price</sub> à au prix du cas source. D<sub>price</sub> est la somme ![img]("https://latex.codecogs.com/svg.image?%5Csum%20%5Cfrac%7Bvc%7D%7Bd%7D")
 
 
-## Execution
+
+## Exécution
 
 ### Pré-requis
 - [Python3](https://www.python.org/downloads/)
@@ -61,4 +69,4 @@ Une documentation du code est disponible dans le fichier `estimator.html` (pour 
 
 
 # Licence
-Voir [Licence](Licence.md)
+Voir [Licence](LICENCE.md)
