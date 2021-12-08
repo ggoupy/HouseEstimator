@@ -80,19 +80,19 @@ La fonction `test_model(nb_epochs)` permet de mesurer l'erreur moyenne dans la p
 </p>   
 La moyenne des différences (en valeur absolue) est ensuite calculée, afin d'estimer la précision globale du système. Il faut tout de même mentionner que cette précision est relative à la base de cas et peut varier sur des problèmes nouveaux.  
    
-Afin de trouver des poids adaptés, la fonction `grid_search()` a été implémentée. Elle permet de tester des combinaisons de poids données, pour chaque descripteur, afin de trouver la meilleure. Pour cela, des plages de valeurs sont définies pour tous les poids, et la fonction mesure la précision pour chaque combinaison possible, avec la fonction `test_model(nb_epochs=30)`. Ensuite, il suffit de choisir la combinaison optimale, *c.a.d* celle ayant le pourcentage d'erreur minimum. Il est là aussi important de mentionner que ces paramètres s'adaptent à la base de cas connue, les tests étant réalisés dessus. Si celle-ci venait à changer, les poids pourraient ne pas donner des résultats précis.  
-*Nb: la fonction n'est pas très élégante, ni modulable, mais a été implémentée dans le but d'automatiser la recherche de poids.* Les poids optimaux trouvés sont : 
+Afin de trouver des poids adaptés, la fonction `grid_search()` a été implémentée. Elle permet de tester des combinaisons de poids données, pour chaque descripteur, afin de trouver la meilleure. Pour cela, des plages de valeurs sont définies pour tous les poids, et la fonction mesure la précision pour chaque combinaison possible, avec la fonction `test_model(nb_epochs=30)`. Ensuite, il suffit de choisir la combinaison optimale, *c.a.d* celle ayant le pourcentage d'erreur minimum. Il est là aussi important de mentionner que ces paramètres s'adaptent à la base de cas connue, les tests étant réalisés dessus. Si celle-ci venait à changer, les poids pourraient ne pas donner des résultats précis. *Nb: la fonction grid_search n'est pas très élégante, ni modulable, mais a été implémentée dans le but d'automatiser la recherche de poids.*  
+Les poids optimaux trouvés sont :
 - **Quartier** : *-3000 * rang du quartier*
 - **Pièces** : *-200*
 - **Surface** : *-3*
 - **Terrain** : *-2*
     
-En utilisant les poids optimaux, sur 100 estimations, nous obtenons un pourcentage d'erreur moyen de **~30.96%**. Pour donner une idée, si le prix réel est de 3000 € / m<sup>2</sup>, le prix estimé pourra être de 2300 € / m<sup>2</sup>. Sur une maison de 100m<sup>2</sup>, on passe d'une valeur de 300,000 € à 230,000 € ! Sacré promotion... Les estimations obtenues ne sont donc pas très fiables. Cela s'explique par plusieurs problèmes pouvant être traités : 
-- La base de cas est trop petite et les données ne sont pas assez fiables (prix sur/sous-estimé)
-- Le nombre de descripteurs n'est pas assez élevé, ne permettant pas une bonne généralisation par l'adaptation
-- Les paramètres d'adaptation pourraient être affinés
-- Certaines valeurs de descripteurs devraient être abstraits/généralisés
-- La remémoration pourrait renvoyer le cas le plus proche ayant le prix le plus élevé, ou en faisant une moyenne des prix
+En utilisant les poids optimaux, sur 100 estimations, nous obtenons un pourcentage d'erreur moyen de **~30.96%**. Concrètement, si le prix réel d'un bien est de 3000 € / m<sup>2</sup>, le prix estimé pourra être de 2300 € / m<sup>2</sup>. Sur une maison de 100m<sup>2</sup>, on passe donc d'une valeur de 300,000 € à 230,000 € ! *Sacré promotion...* Les estimations obtenues ne sont donc pas très fiables. Cela s'explique par plusieurs points, pouvant faire l'objet d'améliorations futures : 
+- La base de cas est trop petite et les données ne sont pas assez fiables (prix sur/sous-estimé).
+- Le nombre de descripteurs n'est pas assez élevé, ne permettant pas une bonne généralisation par l'Adaptation.
+- Les paramètres d'adaptation (poids) pourraient être affinés.
+- Certaines valeurs de descripteurs devraient être abstraits/généralisés (*eg: surface et terrain*).
+- La Remémoration pourrait renvoyer le cas le plus proche ayant le prix le plus élevé (au lieu de celui ayant le prix le plus faible), ou en faisant une moyenne des prix.
 
 
 
