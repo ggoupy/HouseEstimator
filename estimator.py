@@ -288,6 +288,7 @@ def grid_search():
 # ----------------------------------------------------------------------------- #
 # ---------------------------     Main       ---------------------------------- #
 # ----------------------------------------------------------------------------- #
+
 def usage():
     print(f"Usage : <executable> \n\t\t--quartier=<str> \n\t\t--pieces=<int> \n\t\t--surface=<int> \n\t\t--terrain=<int> \n\t\t[ optional --debug ]")
     print(f"Pour tester le modèle : <executable> --test_model=<nb_epochs>")

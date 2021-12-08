@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module estimator</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>estimator</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Cdagla%5Cdesktop%5Ccours%5Cmaster%202%5Cknowledge-dynamics%5Chouse_estimator%5Cestimator.py">c:\users\dagla\desktop\cours\master 2\knowledge-dynamics\house_estimator\estimator.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="getopt.html">getopt</a><br>
+<a href="numpy.html">numpy</a><br>
+</td><td width="25%" valign=top><a href="pandas.html">pandas</a><br>
+<a href="random.html">random</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-closest_fn"><strong>closest_fn</strong></a>(values, val)</dt><dd><tt>#&nbsp;Fonction&nbsp;de&nbsp;similarité&nbsp;pour&nbsp;comparer&nbsp;des&nbsp;nombres<br>
+#&nbsp;Retourne&nbsp;les&nbsp;valeurs&nbsp;où&nbsp;la&nbsp;distance&nbsp;absolue&nbsp;est&nbsp;minimum</tt></dd></dl>
+ <dl><dt><a name="-compute_price"><strong>compute_price</strong></a>(db)</dt><dd><tt>@summary:&nbsp;Calcule&nbsp;le&nbsp;prix&nbsp;au&nbsp;m2&nbsp;par&nbsp;rapport&nbsp;à&nbsp;une&nbsp;(sous)&nbsp;base&nbsp;de&nbsp;cas&nbsp;(généralement&nbsp;1&nbsp;seul).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nous&nbsp;utilisons&nbsp;la&nbsp;moyenne&nbsp;mais&nbsp;on&nbsp;pourrait&nbsp;choisir&nbsp;le&nbsp;minimum&nbsp;/&nbsp;maximum&nbsp;/&nbsp;autre.<br>
+&nbsp;<br>
+@param&nbsp;db:&nbsp;Dataframe&nbsp;contenant&nbsp;la&nbsp;(sous)&nbsp;base&nbsp;de&nbsp;cas<br>
+@return:&nbsp;Prix&nbsp;au&nbsp;m2&nbsp;calculé</tt></dd></dl>
+ <dl><dt><a name="-create_graph_from_db"><strong>create_graph_from_db</strong></a>(db)</dt><dd><tt>@summary:&nbsp;Crée&nbsp;un&nbsp;graphe&nbsp;récursivement&nbsp;à&nbsp;partir&nbsp;d'une&nbsp;base&nbsp;de&nbsp;cas.&nbsp;(Indexation)<br>
+&nbsp;<br>
+@param&nbsp;db:&nbsp;Dataframe&nbsp;contenant&nbsp;la&nbsp;base&nbsp;de&nbsp;cas<br>
+@return:&nbsp;Base&nbsp;de&nbsp;cas&nbsp;indexée</tt></dd></dl>
+ <dl><dt><a name="-estimate"><strong>estimate</strong></a>(search, result, debug=True)</dt><dd><tt>@summary:&nbsp;Adaptation&nbsp;de&nbsp;la&nbsp;solution&nbsp;du&nbsp;cas&nbsp;source&nbsp;pour&nbsp;le&nbsp;problème&nbsp;cible.<br>
+&nbsp;<br>
+@param&nbsp;search:&nbsp;Dict&nbsp;contenant&nbsp;le&nbsp;problème&nbsp;cible<br>
+@param&nbsp;result:&nbsp;Dict&nbsp;conentant&nbsp;le&nbsp;cas&nbsp;source&nbsp;choisi<br>
+@return:&nbsp;Nouveau&nbsp;prix&nbsp;estimé</tt></dd></dl>
+ <dl><dt><a name="-find_similar"><strong>find_similar</strong></a>(graph, search)</dt><dd><tt>@summary:&nbsp;Remémoration&nbsp;d'un&nbsp;cas&nbsp;source&nbsp;similaire&nbsp;au&nbsp;problème&nbsp;cible.<br>
+&nbsp;<br>
+@param&nbsp;graph:&nbsp;Dict&nbsp;sous&nbsp;forme&nbsp;de&nbsp;graph&nbsp;contenant&nbsp;les&nbsp;cas&nbsp;sources<br>
+@param&nbsp;search:&nbsp;Dict&nbsp;contenant&nbsp;le&nbsp;problème&nbsp;cible<br>
+@return:&nbsp;Retourne&nbsp;le&nbsp;cas&nbsp;le&nbsp;plus&nbsp;proche&nbsp;au&nbsp;problème&nbsp;cible</tt></dd></dl>
+ <dl><dt><a name="-grid_search"><strong>grid_search</strong></a>()</dt><dd><tt>#&nbsp;Méthode&nbsp;bourrin&nbsp;pour&nbsp;tester&nbsp;les&nbsp;combinaisons&nbsp;de&nbsp;poids&nbsp;et&nbsp;trouver&nbsp;celles&nbsp;les&nbsp;plus&nbsp;efficaces&nbsp;(sur&nbsp;notre&nbsp;dataset)</tt></dd></dl>
+ <dl><dt><a name="-knearest_desc"><strong>knearest_desc</strong></a>(values, desc, similarity_fn, k=None)</dt><dd><tt>@summary:&nbsp;Applique&nbsp;une&nbsp;fonction&nbsp;de&nbsp;similarité&nbsp;pour&nbsp;trouver&nbsp;les&nbsp;valeurs&nbsp;les&nbsp;plus&nbsp;proches&nbsp;d'une&nbsp;valeur&nbsp;donnée&nbsp;associée&nbsp;à&nbsp;un&nbsp;descripteur.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si&nbsp;k&nbsp;est&nbsp;spécifié,&nbsp;choisit&nbsp;les&nbsp;k-nearest&nbsp;valeurs&nbsp;les&nbsp;plus&nbsp;proches.<br>
+&nbsp;<br>
+@param&nbsp;values:&nbsp;Liste&nbsp;de&nbsp;valeurs&nbsp;possibles&nbsp;pour&nbsp;un&nbsp;descripteur<br>
+@param&nbsp;desc:&nbsp;Valeur&nbsp;du&nbsp;descripteur&nbsp;que&nbsp;l'on&nbsp;cherche<br>
+@param&nbsp;similarity_fn:&nbsp;Fonction&nbsp;de&nbsp;similarité&nbsp;associée&nbsp;au&nbsp;descripteur<br>
+@param&nbsp;k:&nbsp;Nombre&nbsp;de&nbsp;valeurs&nbsp;à&nbsp;retourner&nbsp;('None'&nbsp;pour&nbsp;tout&nbsp;retourner)<br>
+@return:&nbsp;Liste&nbsp;de&nbsp;valeurs&nbsp;les&nbsp;plus&nbsp;proches&nbsp;de&nbsp;la&nbsp;valeur&nbsp;donnée</tt></dd></dl>
+ <dl><dt><a name="-main"><strong>main</strong></a>(argv)</dt></dl>
+ <dl><dt><a name="-run"><strong>run</strong></a>(graph, search, debug=False)</dt><dd><tt>@summary:&nbsp;Résout&nbsp;le&nbsp;problème&nbsp;donné&nbsp;à&nbsp;partir&nbsp;de&nbsp;la&nbsp;base&nbsp;de&nbsp;cas&nbsp;indexée.<br>
+&nbsp;<br>
+@param&nbsp;graph:&nbsp;Dict&nbsp;contenant&nbsp;la&nbsp;base&nbsp;de&nbsp;cas&nbsp;indexée<br>
+@param&nbsp;search:&nbsp;Dict&nbsp;contenant&nbsp;le&nbsp;problème&nbsp;cible&nbsp;à&nbsp;résoudre</tt></dd></dl>
+ <dl><dt><a name="-strict_fn"><strong>strict_fn</strong></a>(values, val)</dt><dd><tt>#&nbsp;Fonction&nbsp;de&nbsp;similarité&nbsp;pour&nbsp;comparer&nbsp;des&nbsp;string<br>
+#&nbsp;Retourne&nbsp;la&nbsp;string&nbsp;exacte&nbsp;ou&nbsp;toutes&nbsp;les&nbsp;valeurs</tt></dd></dl>
+ <dl><dt><a name="-test_model"><strong>test_model</strong></a>(nb_epochs=10, debug=True)</dt><dd><tt>#&nbsp;Méthode&nbsp;qui&nbsp;test&nbsp;le&nbsp;modèle&nbsp;X&nbsp;fois&nbsp;sur&nbsp;des&nbsp;données&nbsp;dont&nbsp;on&nbsp;connait&nbsp;le&nbsp;prix&nbsp;réel<br>
+#&nbsp;Choisit&nbsp;aléatoirement&nbsp;une&nbsp;ligne,&nbsp;l'enlève&nbsp;de&nbsp;la&nbsp;DB,&nbsp;estime&nbsp;sa&nbsp;valeur<br>
+#&nbsp;avec&nbsp;le&nbsp;modèle&nbsp;et&nbsp;calcule&nbsp;le&nbsp;pourcentage&nbsp;de&nbsp;différence&nbsp;avec&nbsp;la&nbsp;réalité</tt></dd></dl>
+ <dl><dt><a name="-usage"><strong>usage</strong></a>()</dt></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>DB</strong> =        quartier     prix  surface  terrain  piec...0       Pessac   292000       70      491       4<br>
+<strong>DESCRIPTEURS</strong> = ['quartier', 'pieces', 'surface', 'terrain']<br>
+<strong>DESCRIPTEURS_FN</strong> = [&lt;function strict_fn&gt;, &lt;function closest_fn&gt;, &lt;function closest_fn&gt;, &lt;function closest_fn&gt;]<br>
+<strong>DESCRIPTEURS_WEIGHTS</strong> = [{'Begles': -30000, 'Bordeaux': -5000, 'Cenon': -25000, 'LeBoutaa': -10000, 'Pessac': -20000, 'Talence': -15000}, -100, -1, -2]<br>
+<strong>wq</strong> = -5000</td></tr></table>
+</body></html>
