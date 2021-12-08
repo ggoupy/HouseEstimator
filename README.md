@@ -49,3 +49,16 @@ Pour tester le modèle sur la base de cas :
 python3 ./estimator.py 
     --test_model=<nb_epochs>
 ```
+
+
+## Documentation
+Une documentation du code est disponible dans le fichier `estimator.html` (pour la visualiser: `firefox estimator.html`)
+
+
+## Auteurs 
+- Gaspard GOUPY
+- Titouan KNOCKAERT
+
+
+# Licence
+Voir [Licence](Licence.md)
