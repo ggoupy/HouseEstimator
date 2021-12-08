@@ -226,18 +226,19 @@ def test_model(nb_epochs=10, debug=True):
         price = estimate(search, result, debug=debug)
         # Calcule le pourcentage de différence avec la réalité
         #diff = round( (abs(search['prix'] - price) / ((search['prix'] + price)/2) * 100) , 2)
-        diff = round( ( (search['prix'] - price) / price ) * 100, 2)
+        diff = round( ( (price - search['prix']) / search['prix'] ) * 100, 2)
         # Affichage
         if debug:
             print(f"Problème cible : {search}")
             print(f"Problème source trouvé : {result}")
-            print(f"Prix estimé au m2 : {price} (à partir du prix source:{result['prix']})")
-            print(f"Prix réel : {search['prix']} / {diff}%")
+            print(f"Prix estimé : {price}")
+            print(f"Prix réel : {search['prix']}")
+            print(f"=> Taux de variation : {diff}%")
             print()
         moy_err += abs(diff)
     moy_err = round(moy_err/nb_epochs,2)
     if debug:
-        print(f"Erreur moyenne dans la prédiciton : {moy_err}%")
+        print(f"Erreur moyenne dans la prédiciton : {moy_err}%\n")
     return moy_err
 
 
@@ -270,11 +271,7 @@ def grid_search():
     # Affichage des résultats
     for k in sorted(res, key=res.get):
         print(k, " -> ", res[k])
-    # Valeurs optimales trouvées : 
-    #(-3000,-200,-3,-2)  ->  19.05
-    #(-2000,-200,-1,-1)  ->  20.04
-    #(-1000,-400,-2,-1)  ->  20.38
-    #(-2000,-400,-2,-1)  ->  20.73
+
 
 
 
@@ -345,5 +342,5 @@ def main(argv):
 
 
 if __name__ == '__main__':
-    grid_search()
-    #main(sys.argv[1:])
+    #grid_search()
+    main(sys.argv[1:])
