@@ -41,9 +41,9 @@ assert(len(DESCRIPTEURS) == len(DESCRIPTEURS_FN))
 wq = -5000 # Pour les quartiers
 DESCRIPTEURS_WEIGHTS = [
     {"Cenon":5*wq,"LeBoutaa":2*wq,"Talence":3*wq,"Pessac":4*wq,"Begles":6*wq,"Bordeaux":1*wq}, # classement des quartiers
-    -10, # pieces
-    -2, # surface
-    -1, # terrain
+    -100, # pieces
+    -1, # surface
+    -2, # terrain
 ]
 assert(len(DESCRIPTEURS) == len(DESCRIPTEURS_WEIGHTS))
 
@@ -246,9 +246,9 @@ def grid_search():
     # Valeurs à tester pour chaque poids
     params = [
         [i for i in range(-5000,-999,1000)], #quartier
-        [i for i in range(-10,0,1)], #pieces
-        [i for i in range(-5,0,1)], #surface
-        [i for i in range(-5,0,1)], #terrain
+        [i for i in range(-500,-99,100)], #pieces
+        [i for i in range(-3,0,1)], #surface
+        [i for i in range(-3,0,1)], #terrain
     ]
 
     # Mega boucle bien complexe
@@ -262,7 +262,7 @@ def grid_search():
                 for l in range(len(params[3])):
                     DESCRIPTEURS_WEIGHTS[3] = params[3][l]
                     # Test le modèle et stocke l'erreur moyenne pour une combinaison de paramètres 
-                    moy_err = test_model(20,False)
+                    moy_err = test_model(30,False)
                     key = "("+str(wq)+","+str(DESCRIPTEURS_WEIGHTS[1])+","+str(DESCRIPTEURS_WEIGHTS[2])+","+str(DESCRIPTEURS_WEIGHTS[3])+")"
                     res = res | { key: moy_err }
 
@@ -270,9 +270,17 @@ def grid_search():
     for k in sorted(res, key=res.get):
         print(k, " -> ", res[k])
     # Valeurs optimales trouvées : 
-    #
-    #
-    #
+    #(-5000,-100,-1,-2)  ->  10.39
+    #(-2000,-200,-1,-2)  ->  13.73
+    #(-3000,-400,-4,-3)  ->  13.9
+    #(-2000,-500,-4,-2)  ->  14.41
+    #(-5000,-500,-2,-3)  ->  14.48
+    #(-1000,-300,-4,-3)  ->  15.68
+    #(-4000,-400,-1,-1)  ->  15.99
+    #(-3000,-400,-1,-2)  ->  16.3
+    #(-2000,-200,-1,-1)  ->  16.54
+    #(-4000,-100,-5,-1)  ->  16.9
+    #(-2000,-300,-5,-1)  ->  17.04
 
 
 
@@ -282,6 +290,7 @@ def grid_search():
 # ----------------------------------------------------------------------------- #
 def usage():
     print(f"Usage : <executable> \n\t\t--quartier=<str> \n\t\t--pieces=<int> \n\t\t--surface=<int> \n\t\t--terrain=<int> \n\t\t[ optional --debug ]")
+    print(f"Pour tester le modèle : <executable> --test_model=<nb_epochs>")
 
 
 def main(argv):
@@ -294,10 +303,11 @@ def main(argv):
         "surface": None,
         "terrain": None
     }
+    test_model_epochs = -1
 
     # Récupération des paramètres passés en ligne de commande
     try:                                
-        opts, _ = getopt.getopt(argv, "", ["quartier=", "pieces=", "surface=", "terrain=", "debug"])
+        opts, _ = getopt.getopt(argv, "", ["quartier=", "pieces=", "surface=", "terrain=", "debug", "test_model="])
         #Pas très romantique mais bon on fait avec...
         for (opt,val) in opts:
             if opt == "--quartier":
@@ -310,9 +320,15 @@ def main(argv):
                 search["terrain"] = int(val)
             if opt == "--debug":
                 debug = True
-        for key in search.keys():
-            if search[key] == None:
-                raise ValueError()
+            if opt == "--test_model":
+                if int(val) > 0:
+                    test_model_epochs = int(val)
+                else:
+                    raise ValueError()
+        if test_model_epochs == -1:
+            for key in search.keys():
+                if search[key] == None:
+                    raise ValueError()
     except getopt.GetoptError:
         print("Error : Impossible de lancer le programme...")
         usage()
@@ -322,11 +338,17 @@ def main(argv):
         usage()
         sys.exit(2)
 
-    # Estimation du problème donné 
+    
     graph = create_graph_from_db(DB)
-    run(graph, search, debug)
+
+    # Estimation du problème donné 
+    if test_model_epochs == -1:
+        run(graph, search, debug)
+    else:
+        test_model(test_model_epochs,True)
+
 
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
-    #grid_search()
+    grid_search()
+    #main(sys.argv[1:])
