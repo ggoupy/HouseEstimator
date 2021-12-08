@@ -38,11 +38,11 @@ assert(len(DESCRIPTEURS) == len(DESCRIPTEURS_FN))
 
 # Poids associé à chaque descripteur, permettant de réaliser l'adaptation
 # /!\ Doit être de la même taille que DESCRIPTEURS
-wq = -5000 # Pour les quartiers
+wq = -3000 # Pour les quartiers
 DESCRIPTEURS_WEIGHTS = [
     {"Cenon":5*wq,"LeBoutaa":2*wq,"Talence":3*wq,"Pessac":4*wq,"Begles":6*wq,"Bordeaux":1*wq}, # classement des quartiers
-    -100, # pieces
-    -1, # surface
+    -200, # pieces
+    -3, # surface
     -2, # terrain
 ]
 assert(len(DESCRIPTEURS) == len(DESCRIPTEURS_WEIGHTS))
@@ -270,17 +270,10 @@ def grid_search():
     for k in sorted(res, key=res.get):
         print(k, " -> ", res[k])
     # Valeurs optimales trouvées : 
-    #(-5000,-100,-1,-2)  ->  10.39
-    #(-2000,-200,-1,-2)  ->  13.73
-    #(-3000,-400,-4,-3)  ->  13.9
-    #(-2000,-500,-4,-2)  ->  14.41
-    #(-5000,-500,-2,-3)  ->  14.48
-    #(-1000,-300,-4,-3)  ->  15.68
-    #(-4000,-400,-1,-1)  ->  15.99
-    #(-3000,-400,-1,-2)  ->  16.3
-    #(-2000,-200,-1,-1)  ->  16.54
-    #(-4000,-100,-5,-1)  ->  16.9
-    #(-2000,-300,-5,-1)  ->  17.04
+    #(-3000,-200,-3,-2)  ->  19.05
+    #(-2000,-200,-1,-1)  ->  20.04
+    #(-1000,-400,-2,-1)  ->  20.38
+    #(-2000,-400,-2,-1)  ->  20.73
 
 
 
@@ -351,5 +344,5 @@ def main(argv):
 
 
 if __name__ == '__main__':
-    grid_search()
-    #main(sys.argv[1:])
+    #grid_search()
+    main(sys.argv[1:])
