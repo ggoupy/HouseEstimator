@@ -345,5 +345,5 @@ def main(argv):
 
 
 if __name__ == '__main__':
-    #grid_search()
-    main(sys.argv[1:])
+    grid_search()
+    #main(sys.argv[1:])
