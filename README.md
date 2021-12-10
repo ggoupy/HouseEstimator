@@ -80,8 +80,8 @@ La fonction `test_model(nb_epochs)` permet de mesurer l'erreur moyenne dans la p
 </p>   
 La moyenne des différences (en valeur absolue) est ensuite calculée, afin d'estimer la précision globale du système. Il faut tout de même mentionner que cette précision est relative à la base de cas et peut varier sur des problèmes nouveaux.  
    
-   
-Afin de trouver des poids adaptés, la fonction `grid_search()` a été implémentée. Elle permet de tester des combinaisons de poids données, pour chaque descripteur, pour trouver la meilleure. Pour cela, des plages de valeurs sont définies pour tous les poids, et la fonction mesure la précision pour chaque combinaison possible, avec la fonction `test_model(nb_epochs=30)`. Ensuite, il suffit de choisir la combinaison optimale, *c.a.d* celle ayant le pourcentage d'erreur minimum. Il est là aussi important de mentionner que ces paramètres s'adaptent à la base de cas connue, les tests étant réalisés dessus. Si celle-ci venait à changer, les poids pourraient ne pas donner des résultats précis. *Nb: la fonction grid_search n'est pas très élégante, ni modulable, mais a été implémentée dans le but d'automatiser la recherche de poids.*  
+<br/>
+Afin de trouver des poids adaptés, la fonction `grid_search()` a été implémentée. Elle permet de tester des combinaisons de poids données, pour chaque descripteur, afin de trouver la meilleure. Pour cela, des plages de valeurs sont définies pour tous les poids, et la fonction mesure la précision pour chaque combinaison possible, avec la fonction `test_model(nb_epochs=30)`. Ensuite, il suffit de choisir la combinaison optimale, *c.a.d* celle ayant le pourcentage d'erreur minimum. Il est là aussi important de mentionner que ces paramètres s'adaptent à la base de cas connue, les tests étant réalisés dessus. Si celle-ci venait à changer, les poids pourraient ne pas donner des résultats précis. *Nb: la fonction grid_search n'est pas très élégante, ni modulable, mais a été implémentée dans le but d'automatiser la recherche de poids.*  
 Les poids optimaux trouvés sont :
 - **Quartier** : *-3000 * rang du quartier*
 - **Pièces** : *-200*
