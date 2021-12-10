@@ -38,12 +38,12 @@ assert(len(DESCRIPTEURS) == len(DESCRIPTEURS_FN))
 
 # Poids associé à chaque descripteur, permettant de réaliser l'adaptation
 # /!\ Doit être de la même taille que DESCRIPTEURS
-wq = -3000 # Pour les quartiers
+wq = -1000 # Pour les quartiers
 DESCRIPTEURS_WEIGHTS = [
     {"Cenon":5*wq,"LeBoutaa":2*wq,"Talence":3*wq,"Pessac":4*wq,"Begles":6*wq,"Bordeaux":1*wq}, # classement des quartiers
-    -200, # pieces
-    -3, # surface
-    -2, # terrain
+    -100, # pieces
+    -1, # surface
+    -1, # terrain
 ]
 assert(len(DESCRIPTEURS) == len(DESCRIPTEURS_WEIGHTS))
 
@@ -249,8 +249,8 @@ def grid_search():
     params = [
         [i for i in range(-5000,-999,1000)], #quartier
         [i for i in range(-500,-99,100)], #pieces
-        [i for i in range(-3,0,1)], #surface
-        [i for i in range(-3,0,1)], #terrain
+        [i for i in range(-5,0,1)], #surface
+        [i for i in range(-5,0,1)], #terrain
     ]
 
     # Mega boucle bien complexe
@@ -271,7 +271,15 @@ def grid_search():
     # Affichage des résultats
     for k in sorted(res, key=res.get):
         print(k, " -> ", res[k])
-
+    #(-1000,-100,-1,-1)  ->  21.01
+    #(-5000,-200,-1,-2)  ->  21.54
+    #(-3000,-300,-1,-1)  ->  22.53
+    #(-1000,-400,-2,-2)  ->  22.56
+    #(-3000,-100,-4,-1)  ->  22.83
+    #(-5000,-500,-4,-2)  ->  23.1
+    #(-4000,-300,-5,-3)  ->  23.1
+    #(-5000,-100,-3,-1)  ->  23.11
+    #(-1000,-100,-3,-2)  ->  23.42
 
 
 
