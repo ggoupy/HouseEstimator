@@ -73,13 +73,15 @@ Les résultats obtenus (voir *Expériences et résultats*) n'étant pas assez pr
 
 
 ## Expériences et résultats
+#### Mesure des performances
 Cette section détaille les expériences réalisées pour tester la précision du système.  
 La fonction `test_model(nb_epochs)` permet de mesurer l'erreur moyenne dans la prédiction sur `nb_epochs`. Pour cela, à chaque itération, une cas est tiré aléatoirement et uniformément, puis retiré de la base de cas. Son prix est déjà connu mais le système va l'estimer en suivant le cycle décrit dans la section [Programme](#Programme). Ainsi, le pourcentage de différence (variation) entre le prix réel et le prix estimé peut être calculé par la formule :   
 <p align="center">
     <img src="https://render.githubusercontent.com/render/math?math=error = \frac{p_{estimate} - p_{reel}}{p_{reel}} * 100">  
 </p>   
 La moyenne des différences (en valeur absolue) est ensuite calculée, afin d'estimer la précision globale du système. Il faut tout de même mentionner que cette précision est relative à la base de cas et peut varier sur des problèmes nouveaux.  
-       
+
+#### Optimisation des poids
 Afin de trouver des poids adaptés, la fonction `grid_search()` a été implémentée. Elle permet de tester des combinaisons de poids données, pour chaque descripteur, afin de trouver la meilleure. Pour cela, des plages de valeurs sont définies pour tous les poids, et la fonction mesure la précision pour chaque combinaison possible, avec la fonction `test_model(nb_epochs=30)`. Ensuite, il suffit de choisir la combinaison optimale, *c.a.d* celle ayant le pourcentage d'erreur minimum. Il est là aussi important de mentionner que ces paramètres s'adaptent à la base de cas connue, les tests étant réalisés dessus. Si celle-ci venait à changer, les poids pourraient ne pas donner des résultats précis. *Nb: la fonction grid_search n'est pas très élégante, ni modulable, mais a été implémentée dans le but d'automatiser la recherche de poids.*  
 Les poids optimaux trouvés sont :
 - **Quartier** : *-3000 * rang du quartier*
