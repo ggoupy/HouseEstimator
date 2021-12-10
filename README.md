@@ -84,10 +84,10 @@ La moyenne des différences (en valeur absolue) est ensuite calculée, afin d'es
 #### Optimisation des poids
 Afin de trouver des poids adaptés, la fonction `grid_search()` a été implémentée. Elle permet de tester des combinaisons de poids données, pour chaque descripteur, afin de trouver la meilleure. Pour cela, des plages de valeurs sont définies pour tous les poids, et la fonction mesure la précision pour chaque combinaison possible, avec la fonction `test_model(nb_epochs=30)`. Ensuite, il suffit de choisir la combinaison optimale, *c.a.d* celle ayant le pourcentage d'erreur minimum. Il est là aussi important de mentionner que ces paramètres s'adaptent à la base de cas connue, les tests étant réalisés dessus. Si celle-ci venait à changer, les poids pourraient ne pas donner des résultats précis. *Nb: la fonction grid_search n'est pas très élégante, ni modulable, mais a été implémentée dans le but d'automatiser la recherche de poids.*  
 Les poids optimaux trouvés sont :
-- **Quartier** : *-3000 * rang du quartier*
-- **Pièces** : *-200*
-- **Surface** : *-3*
-- **Terrain** : *-2*
+- **Quartier** : *-1000 * rang du quartier*
+- **Pièces** : *-100*
+- **Surface** : *-1*
+- **Terrain** : *-1*
     
 #### Précision obtenue
 En utilisant les poids optimaux, sur 100 estimations, nous obtenons un pourcentage d'erreur moyen de **~29.79%**. Concrètement, si le prix réel d'un bien est de 3000 € / m<sup>2</sup>, le prix estimé pourra être de 2100 € / m<sup>2</sup>. Sur une maison de 100m<sup>2</sup>, on passe donc d'une valeur de 300,000 € à 210,000 € ! *Sacrée promotion...* Les estimations obtenues ne sont donc pas très précises. Cependant, nous tenons à rappeler que notre objectif est d'estimer la valeur minimum d'une maison. Dans ce cas, l'estimation n'est pas si loin de la réalité.   
