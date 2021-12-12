@@ -67,7 +67,18 @@ L'adaptation du cas source pour le problème cible est réalisée par la fonctio
 
 Les poids associés à un descripteur sont stockés dans la constante `DESCRIPTEURS_WEIGHTS`. À noter que pour des descripteurs contenant des valeurs de type *string*, le poids associé est un dictionnaire contenant (ou non) un déficit pour la valeur. Par exemple : pour le descripteur *quartier*, le dictionnaire contient des déficits chaque quartier (Talence, Cenon, etc.). Plus le quartier est recherché, plus le déficit est faible. Ainsi, si un cas source se trouve dans un quartier plus rercherché que le problème cible, son déficit sera moins élevé que celui du problème, donc la valeur du prix diminuera. Et inversement.
 
-#### 4. Mémorisation
+#### 4. Révision
+Nous avons décider de ne pas intégrer de révision dans le système. En effet, dans le cadre de l'estimation de la valeur d'une maison, il est difficile pour l'utilisateur d'estimer une solution proposée de manière objective. Un vendeur cherchera à obtenir le prix le plus haut, et inversement pour un achteur. Demander à l'utilisateur une révision de la valeur obtenue n'a donc pas de réel intérêt. Cependant, l'implémentation d'une révision est assez simple, comme l'illustre le pseudo code suivant : 
+```
+prix_accepté = false
+while not(prix_accepté) :
+    cas_source = remémoration(graphe, pb_cible)
+    prix_estimé = adaptation(pb_cible, cas_source)
+    prix_accepté = révision(pb_cible, prix_estimé) //Input utilisateur ou automatique
+    graphe.remove(cas_source)
+```
+
+#### 5. Mémorisation
 Les résultats obtenus (voir *Expériences et résultats*) n'étant pas assez précis, aucune mémorisation n'a été implémenté, afin de ne pas altérer la base de cas. Cependant, cette étape consisterait seulement à ajouter une nouvelle ligne dans `db.csv` et à mettre à jour la base indexée.
 
 
