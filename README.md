@@ -68,11 +68,12 @@ L'adaptation du cas source pour le problème cible est réalisée par la fonctio
 Les poids associés à un descripteur sont stockés dans la constante `DESCRIPTEURS_WEIGHTS`. À noter que pour des descripteurs contenant des valeurs de type *string*, le poids associé est un dictionnaire contenant (ou non) un déficit pour la valeur. Par exemple : pour le descripteur *quartier*, le dictionnaire contient des déficits chaque quartier (Talence, Cenon, etc.). Plus le quartier est recherché, plus le déficit est faible. Ainsi, si un cas source se trouve dans un quartier plus rercherché que le problème cible, son déficit sera moins élevé que celui du problème, donc la valeur du prix diminuera. Et inversement.
 
 #### 4. Révision
-Nous avons décidé de ne pas intégrer de révision dans le système. En effet, dans le cadre de l'estimation de la valeur d'une maison, il est difficile pour l'utilisateur d'estimer une solution proposée de manière objective. Un vendeur cherchera à obtenir le prix le plus haut, et inversement pour un acheteur. Demander à l'utilisateur une révision de la valeur obtenue n'a donc pas de réel intérêt. Cependant, l'implémentation d'une révision est assez simple, comme l'illustre le code suivant : 
+Nous avons décidé de ne pas intégrer de révision dans le système. En effet, dans le cadre de l'estimation de la valeur d'une maison, il est difficile pour l'utilisateur d'estimer une solution proposée de manière objective. Un vendeur cherchera à obtenir le prix le plus haut, et inversement pour un acheteur. Demander à l'utilisateur une révision de la valeur obtenue n'a donc pas de réel intérêt. Cependant, l'implémentation d'une révision est assez simple et s'intègre bien dans le cycle, comme l'illustre le code suivant : 
 ```python
 cas_source = rememoration(graphe, pb_cible)
 prix_estime = adaptation(pb_cible, cas_source)
 prix_revise = revision(pb_cible, cas_source, prix_estime) # Retour utilisateur ou automatique
+prix_revise = memorisation(pb_cible, prix_revise)
 ```
 
 #### 5. Mémorisation
