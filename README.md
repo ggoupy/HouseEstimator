@@ -73,7 +73,7 @@ Nous avons décidé de ne pas intégrer de révision dans le système. En effet,
 cas_source = rememoration(graphe, pb_cible)
 prix_estime = adaptation(pb_cible, cas_source)
 prix_revise = revision(pb_cible, cas_source, prix_estime) # Retour utilisateur ou automatique
-prix_revise = memorisation(pb_cible, prix_revise)
+memorisation(pb_cible, prix_revise)
 ```
 
 #### 5. Mémorisation
