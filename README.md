@@ -70,12 +70,9 @@ Les poids associés à un descripteur sont stockés dans la constante `DESCRIPTE
 #### 4. Révision
 Nous avons décidé de ne pas intégrer de révision dans le système. En effet, dans le cadre de l'estimation de la valeur d'une maison, il est difficile pour l'utilisateur d'estimer une solution proposée de manière objective. Un vendeur cherchera à obtenir le prix le plus haut, et inversement pour un acheteur. Demander à l'utilisateur une révision de la valeur obtenue n'a donc pas de réel intérêt. Cependant, l'implémentation d'une révision est assez simple, comme l'illustre le code suivant : 
 ```python
-prix_accepte = False
-while not(prix_accepte) :
-    cas_source = rememoration(graphe, pb_cible)
-    prix_estime = adaptation(pb_cible, cas_source)
-    prix_accepte = revision(pb_cible, prix_estime) # Input utilisateur ou automatique
-    graphe.remove(cas_source)
+cas_source = rememoration(graphe, pb_cible)
+prix_estime = adaptation(pb_cible, cas_source)
+prix_revise = revision(pb_cible, cas_source, prix_estime) # Retour utilisateur ou automatique
 ```
 
 #### 5. Mémorisation
